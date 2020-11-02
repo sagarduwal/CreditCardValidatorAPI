@@ -15,9 +15,11 @@ public class Validate {
 
 	@GET
 	@Produces(MediaType.TEXT_HTML)
-	public String isValid(@QueryParam("Card_num") String cardNum) {
+	public String validateCard(@QueryParam("Card_num") String cardNum) {
+		Luhn checkLuhn = new Luhn();
 		System.out.println("Card is " + cardNum);
-        if (Luhn.validateCard(cardNum)) {
+		
+        if (checkLuhn.luhnAlgorithm(cardNum)) {
             System.out.println("This is a valid card");
         	resource = "<h1>Valid</h1>";
         }

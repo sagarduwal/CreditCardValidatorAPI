@@ -25,7 +25,7 @@ public class Luhn {
 		totalEven = 0;
 	}
 	
-	static boolean validateCard(String cardNum)
+	static boolean luhnAlgorithm(String cardNum)
 	{
 		numOfDigits = cardNum.length(); //Retrieve the length of the raw card number
 		String reverseCardNum = new StringBuffer(cardNum).reverse().toString(); //Reverses the raw card number
