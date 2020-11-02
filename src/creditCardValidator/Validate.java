@@ -15,7 +15,7 @@ public class Validate {
 
 	@GET
 	@Produces(MediaType.TEXT_HTML)
-	public String validateCard(@QueryParam("Card_num") String cardNum) {
+	public String validateCard(@QueryParam("card_num") String cardNum) {
 		Luhn checkLuhn = new Luhn();
 		System.out.println("Card is " + cardNum);
 		
