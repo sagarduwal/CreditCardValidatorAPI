@@ -3,6 +3,7 @@ package test;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
@@ -23,11 +24,17 @@ public class Hello {
 		String resource = null;
 		return resource;
 	}
+
 	
 	@GET
 	@Produces(MediaType.TEXT_HTML)
-	public String sayHelloHTML() {
-		String resource = "<h1>Hello from HTML</h1>";
+	public String valid(@QueryParam("Card_no") String Card_no) {
+		System.out.println("Card is " + Card_no);
+		String resource;
+		int intcard = Integer.parseInt(Card_no);
+		System.out.println("Card is " + intcard);
+		resource = "<h1>Valid</h1>";
+		
 		return resource;
 	}
 
