@@ -18,8 +18,13 @@ public class Validate {
 		System.out.println("GET method is called!");
 		
 		Luhn checkLuhn = new Luhn();
-		return "{ \"Card Number\":" + cardNum + ", \n \"Valid\":" + checkLuhn.luhnAlgorithm(cardNum) + "}";
-		//return "{ \"Card Number\":" + cardNum + "\"Valid\":" + checkLuhn.luhnAlgorithm(cardNum) + "}";
+		return "{"
+				+"\n"
+				+"	\"Card Number\": " + cardNum + ","
+				+"\n"
+				+"	\"Valid\": " + checkLuhn.luhnAlgorithm(cardNum)
+				+"\n"
+				+"}";
 	}
 
 }
