@@ -14,7 +14,7 @@
 
 	<servlet-mapping>
 		<servlet-name>CreditCardValidatorAPI</servlet-name>
-		<url-pattern>/api/*</url-pattern>
+		<url-pattern>/v1/*</url-pattern>
 	</servlet-mapping>
 
 </web-app>
