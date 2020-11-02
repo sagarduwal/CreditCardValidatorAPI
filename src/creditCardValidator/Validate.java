@@ -8,26 +8,18 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
-@Path("/validate")
+@Path("/validates")
 public class Validate {
-	
-	private String resource;
 
 	@GET
-	@Produces(MediaType.TEXT_HTML)
+	@Produces(MediaType.APPLICATION_JSON)
 	public String validateCard(@QueryParam("card_num") String cardNum) {
-		Luhn checkLuhn = new Luhn();
-		System.out.println("Card is " + cardNum);
 		
-        if (checkLuhn.luhnAlgorithm(cardNum)) {
-            System.out.println("This is a valid card");
-        	resource = "<h1>Valid</h1>";
-        }
-        else {
-            System.out.println("This is not a valid card");
-			resource = "<h1>Invalid</h1>";
-        }
-		return resource;
+		System.out.println("GET method is called!");
+		
+		Luhn checkLuhn = new Luhn();
+		return "{ \"Card Number\":" + cardNum + ", \n \"Valid\":" + checkLuhn.luhnAlgorithm(cardNum) + "}";
+		//return "{ \"Card Number\":" + cardNum + "\"Valid\":" + checkLuhn.luhnAlgorithm(cardNum) + "}";
 	}
 
 }
