@@ -39,9 +39,9 @@ public class Luhn {
 			}
 			else {
 				totalEven += currDigit * 2;	//Adds current digit of weight '2' to total
-                if(currDigit >= 5) {	//Checks if it is a double digit
-                	totalEven -= 9;		//If so then remove 9
-                }
+				if(currDigit >= 5) {	//Checks if it is a double digit
+					totalEven -= 9;		//If so then remove 9
+				}
 			}
 		}
 		
