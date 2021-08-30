@@ -14,24 +14,23 @@ assigned to an account, has a sufficient balance and has not expired etc.
 package io.github.mahirahman.CreditCardValidatorAPI;
 
 public class Luhn {
-	
-	//Data types used in luhnAlgorithm()
+
 	private static int numOfDigits;
 	private static int currDigit;
 	private static int totalOdd;
 	private static int totalEven;
-	
+
 	//Constructor to initialize the total for odd and even weights
 	public Luhn() {
-		totalOdd = 0;
-		totalEven = 0;
+		totalEven = 0; //First digit is even at index 0,2,4,..
+		totalOdd = 0; //Second digit is odd at index 1,3,5,..
 	}
-	
-	static boolean luhnAlgorithm(String cardNum)
-	{
+
+	//Implementation of the Luhn algorithm
+	boolean luhnAlgorithm(String cardNum) {
 		numOfDigits = cardNum.length(); //Retrieve the length of the raw card number
 		String reverseCardNum = new StringBuffer(cardNum).reverse().toString(); //Reverses the raw card number
-		
+
 		for(int i = 0; i < numOfDigits; i++) {
 			currDigit = Character.digit(reverseCardNum.charAt(i), 10); //Get the current digit at index i
 			if(i % 2 == 0) {
@@ -44,8 +43,10 @@ public class Luhn {
 				}
 			}
 		}
-		
-	    return ((totalOdd + totalEven) % 10 == 0);	//Return True/False if {total}MOD{10} is 0
+
+		//Returns boolean value corresponding to the total digits in the credit card divisible by 10
+		//Ensures checksum digit is valid
+	    return ((totalOdd + totalEven) % 10 == 0);
 	}
 
 }
