@@ -2,13 +2,18 @@
 
 package io.github.mahirahman.CreditCardValidatorAPI.endpoints;
 
+import javax.json.Json;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import javax.json.Json;
-import javax.json.JsonObject;
+import javax.ws.rs.core.Response;
+
+import io.github.mahirahman.CreditCardValidatorAPI.exceptions.InvalidCardNumberException;
+import io.github.mahirahman.CreditCardValidatorAPI.model.Luhn;
+import io.github.mahirahman.CreditCardValidatorAPI.model.Numeric;
+
 
 @Path("/issuer-category")
 @Produces(MediaType.APPLICATION_JSON)
@@ -20,20 +25,39 @@ public class IssuerCategory {
 	// GET method that produces the Major Industry Identifier (MII) and Issuer Category
 	// localhost:8080/CreditCardValidatorAPI/v1/issuer-category?card_num={cardNum}
 	@GET
-	public String issuerCategory(@QueryParam("card_num") long cardNum) {
+	public String issuerCategory(@QueryParam("card_num") String cardNum) {
 		
-		identifier = String.valueOf(cardNum).charAt(0);
-
-		// Add data to the JSON object
-		JsonObject response = Json.createObjectBuilder()
-			.add("Card Number", cardNum)
-			.add("Major Industry Identifier", Character.getNumericValue(identifier))
-			.add("Issuer Category", getIssuerCategory(identifier))
-			.build();
+		// Handle non-numeric values
+		// e.g) "", " ", " 123", "test", "!@123", null
+		if (!Numeric.isNumeric(cardNum)) {
+			throw new InvalidCardNumberException(Response.Status.BAD_REQUEST,
+					"Card number is not numeric. Please input a numeric value.");
+		}
+		// Handle negative values
+		// e.g) "-123", "0", "-0"
+		else if (Long.parseLong(cardNum) <= 0) {
+			throw new InvalidCardNumberException(Response.Status.BAD_REQUEST,
+					"Card number is not a positive number. Please input a non-negative value.");
+		}
+		// Handle if the card is not valid value
+		// e.g) "30286572326402"
+		Luhn checkLuhn = new Luhn();
+		if (!checkLuhn.luhnAlgorithm(cardNum)) {
+			throw new InvalidCardNumberException(Response.Status.NOT_FOUND,
+					"Card number is not a valid number. Please use the validate endpoint to see if value is valid.");
+		}
+		
+		// Major Industry Identifier
+		identifier = cardNum.charAt(0);
 
 		// Returns JSON response
-		return response.toString();
-
+		return Json.createObjectBuilder()
+			// Add data to the JSON object
+			.add("Card Number", Long.parseLong(cardNum))
+			.add("Major Industry Identifier", Character.getNumericValue(identifier))
+			.add("Issuer Category", getIssuerCategory(identifier))
+			.add("Valid", checkLuhn.luhnAlgorithm(cardNum))
+			.build().toString();
 	}
 	
 	// Returns the issuer category based on the identifier parameter
