@@ -23,10 +23,10 @@ cardNum: Integer Number of Credit Card
 
 ## Endpoints
 
-| Method 	| Endpoint                            	|
-|--------	|-------------------------------------	|
-| GET    	| /validates?card_num={cardNum}       	|
-| GET    	| /issuer-category?card_num={cardNum} 	|
+| Method 	| Endpoint                            	| Description                                               	|
+|--------	|-------------------------------------	|-----------------------------------------------------------	|
+| GET    	| /validates?card_num={cardNum}       	| Checks the card number is valid and returns a boolean     	|
+| MVP    	| /issuer-category?card_num={cardNum} 	| Returns issuer category information of the specified card 	|
 
 ## Prerequisites
 
